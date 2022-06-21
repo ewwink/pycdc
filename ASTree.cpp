@@ -1165,8 +1165,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
             break;
         case Pyc::WITH_EXCEPT_START:
         case Pyc::RERAISE:
-        case Pyc::JUMP_IF_NOT_EXC_MATCH_A:
-        case Pyc::RERAISE_A:
         case Pyc::JUMP_IF_FALSE_A:
         case Pyc::JUMP_IF_TRUE_A:
         case Pyc::JUMP_IF_FALSE_OR_POP_A:
