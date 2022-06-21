@@ -1163,6 +1163,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 stack.push(new ASTCompare(left, right, operand ? ASTCompare::CMP_IS_NOT : ASTCompare::CMP_IS));
             }
             break;
+        case Pyc::WITH_EXCEPT_START
         case Pyc::JUMP_IF_FALSE_A:
         case Pyc::JUMP_IF_TRUE_A:
         case Pyc::JUMP_IF_FALSE_OR_POP_A:
