@@ -1163,7 +1163,6 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 stack.push(new ASTCompare(left, right, operand ? ASTCompare::CMP_IS_NOT : ASTCompare::CMP_IS));
             }
             break;
-        case Pyc::WITH_EXCEPT_START:
         case Pyc::RERAISE:
         case Pyc::JUMP_IF_NOT_EXC_MATCH_A:
         case Pyc::JUMP_IF_FALSE_A:
@@ -1958,6 +1957,7 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                 }
             }
             break;
+        case Pyc::WITH_EXCEPT_START:
         case Pyc::SETUP_EXCEPT_A:
             {
                 if (curblock->blktype() == ASTBlock::BLK_CONTAINER) {
