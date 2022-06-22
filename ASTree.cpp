@@ -2862,7 +2862,7 @@ void print_src(PycRef<ASTNode> node, PycModule* mod)
                 else {
                     map->add(new ASTObject(key), PycRef<ASTNode>());
                 }
-
+            }
             print_src(map, mod);
         }
         break;
