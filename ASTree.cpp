@@ -1334,7 +1334,15 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                     }
                     break;
                 }
-
+                // should check if stack_history has any item,if empty ,that count be a `junkcode-absjump`
+                if (!stack_hist.size()) {
+                    // reset to next byte of JUMP_ABS
+                    for (int i = 0; i < 4; i++) {
+                        pos++;
+                        source.getByte();
+                    }
+                    break;
+                }
                 stack = stack_hist.top();
                 stack_hist.pop();
 
@@ -2846,11 +2854,14 @@ void print_src(PycRef<ASTNode> node, PycModule* mod)
             auto map = new ASTMap;
             for (const auto& key : keys) {
                 // Values are pushed onto the stack in reverse order.
-                PycRef<ASTNode> value = values.back();
-                values.pop_back();
-
-                map->add(new ASTObject(key), value);
-            }
+                if (values.size() > 0) {
+                    PycRef<ASTNode> value = values.back();
+                    values.pop_back();
+                    map->add(new ASTObject(key), value);
+                }
+                else {
+                    map->add(new ASTObject(key), PycRef<ASTNode>());
+                }
 
             print_src(map, mod);
         }
@@ -3404,7 +3415,7 @@ void decompyle(PycRef<PycCode> code, PycModule* mod)
                     clean->removeFirst();
             }
         }
-        if (clean->nodes().back().type() == ASTNode::NODE_RETURN) {
+        if (clean->nodes().size() && clean->nodes().back().type() == ASTNode::NODE_RETURN) {
             PycRef<ASTReturn> ret = clean->nodes().back().cast<ASTReturn>();
 
             if (ret->value() == NULL || ret->value().type() == ASTNode::NODE_LOCALS) {
